@@ -7,7 +7,8 @@ function serchRestaurant(foodWord, city) {
     key: API_KEY,
     keyword: '居酒屋',
     range: 3, // 検索範囲（半径3km）
-    format: 'json' // レスポンスの形式
+    format: 'json', // レスポンスの形式
+    count: 5
   };
   
   // APIリクエストを送信
@@ -16,16 +17,17 @@ function serchRestaurant(foodWord, city) {
   }).join('&'));
   
   var responseData = JSON.parse(response.getContentText());
-  console.log(response);
+
   // レスポンスデータをGoogle Sheetsに書き込む
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const sheet = ss.getSheetByName("シート1");
   // headerの書き込み
   var headers = ['店舗名', '住所', '電話番号'];
-  sheet.appendRow(headers).getRange("A1");
+  sheet.appendRow(headers);
   
   responseData.results.shop.forEach(function(shop) {
-    var row = [shop.name, shop.address, shop.tel, shop.urls.pc];
+    var row = [shop.name, shop.address, shop.urls.pc];
     sheet.appendRow(row).getRange("A2");
   });
+
 }
