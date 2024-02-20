@@ -19,11 +19,9 @@ function serchRestaurant() {
   // 検索条件を設定
   var params = {
     key: API_KEY,
-    order: 4,
-    // start: 5,
     keyword: cityName,
     genre: foodWord,
-    count: 30,
+    count: 50,
     format: 'json'
   };
   
