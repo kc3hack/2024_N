@@ -9,8 +9,8 @@ const LINE_TOKEN = PropertiesService.getScriptProperties().getProperty("LINE_TOK
 */
 const LINE_URL = 'https://api.line.me/v2/bot/message/reply';
 
-
 //ユーザーからメッセージを受け取った時にする処理
+//メインメニュー
 function doPost(e){
   //ユーザが送信したデータ
   const json = JSON.parse(e.postData.contents);
@@ -20,11 +20,10 @@ function doPost(e){
   const messageText = json.events[0].message.text;
 
   //検証時に正常処理値(200)を返す
-
-  //メインメニューの分岐処理
   if (typeof reply_token === 'underfined') {
     return;
   }
+
   if (messageText == "ヘルプ"){
     sendMessage("これはヘルプです");
   }
@@ -34,8 +33,9 @@ function doPost(e){
   if (messageText == "お店を決めてもらう"){
     question();
   }
-  
+
 }
+
 
 //メッセージを送る関数
 function sendMessage(postmessage){
