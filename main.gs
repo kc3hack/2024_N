@@ -11,7 +11,7 @@ const LINE_URL = 'https://api.line.me/v2/bot/message/reply';
 
 //ユーザーからメッセージを受け取った時にする処理
 //メインメニュー
-function doPost(e){
+function doPost(e) {
   //ユーザが送信したデータ
   const json = JSON.parse(e.postData.contents);
   const reply_token = json.events[0].replyToken;
@@ -24,13 +24,13 @@ function doPost(e){
     return;
   }
 
-  if (messageText == "ヘルプ"){
+  if (messageText == "ヘルプ") {
     sendMessage("これはヘルプです");
   }
-  if (messageText == "設定"){
+  if (messageText == "設定") {
     setting();
   }
-  if (messageText == "お店を決めてもらう"){
+  if (messageText == "お店を決めてもらう") {
     question();
   }
 
@@ -38,7 +38,7 @@ function doPost(e){
 
 
 //メッセージを送る関数
-function sendMessage(postmessage){
+function sendMessage(postmessage) {
   //送信データのjson
   const option = {
     'headers': {
@@ -55,7 +55,7 @@ function sendMessage(postmessage){
     }),
   }
   //送信
-  UrlFetchApp.fetch(LINE_URL,option);
+  UrlFetchApp.fetch(LINE_URL, option);
 
   return;
 
