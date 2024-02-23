@@ -8,8 +8,8 @@ var replyToken, message;
 
 function main() {
   quickReply(LINE_TOKEN, LINE_BROADCAST_ENDPOINT, LINE_USERID);
-  convertCode();             // コード変換
-  serchRestaurant();         // 店を調べる
-  columns = resultMessage(); // 結果のカラムを作る
-                             // 送信する関数を入れる
+  convertCode();               // コード変換
+  serchRestaurant();           // 店を調べる
+  columns = resultMessage();  // 結果のカラムを作る
+                              // 送信する関数を入れる
 }
