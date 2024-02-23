@@ -39,6 +39,6 @@ function resultMessage() {
     columns.push(column);
   }
 
-  // console.log(columns);
+  console.log(columns);
   return columns;
 }
