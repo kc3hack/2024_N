@@ -1,16 +1,15 @@
 function resultMessage() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const resultSheet = ss.getSheetByName("result");
-  
-  // 行を取得
+
   var lastRow = resultSheet.getLastRow();
-  console.log(lastRow);
+
+  // カラムのリストを作成
+  var columns = [];
 
   // カラムを作成
   for (let i = 0; i < 3; i++)
   {
-    // カラムのリストを作成
-    var columns = [];
 
     // 乱数を取得
     var row = Math.ceil(Math.random() * (lastRow-1)) + 1;
@@ -37,11 +36,9 @@ function resultMessage() {
         }
       ]
     }
-    
-    //カラムを配列に格納
-    columns[i] = column;
+    columns.push(column);
   }
 
-  // return
+  // console.log(columns);
   return columns;
 }
