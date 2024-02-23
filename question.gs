@@ -18,31 +18,38 @@ function question() {
 
   //質問を集めたスプレッドシートを2次元配列に整列
   const questionsSheet = spreadSheet.getSheetByName("questions");
-  var questions = questionsSheet(questionMaxRow, questionMaxColumn);
-  //質問の回数をカウント
-  questionCounter = 0;
+  var questions = questionsSheet(questionMaxRow, questionMaxColumn).getValues();
+
+  //質問の回数をカウント(2ずつ増える)
+  var questionCounter = 0;
+
   //質問をランダムで選定&生成
-  questionSelectedNumber = Math.randomInt(0, questionMaxRow);
-  //question = questions[][];
+  var questionSelectedNumber = Math.randomInt(0, questionMaxRow);
+  var question = questions[questionSelectedNumber][questionCounter];
+  var answerArray = ""
 
-  while (true) {
-
-    function doPost(e) {
-      //ユーザが送信したデータ
-      const json = JSON.parse(e.postData.contents);
-      const reply_token = json.events[0].replyToken;
-      const messageId = json.events[0].message.id;
-      const messageType = json.events[0].message.type;
-      const messageText = json.events[0].message.text;
-
-      //検証時に正常処理値(200)を返す
-      if (typeof reply_token === 'underfined') {
-        return;
+  //質問文を3回生成
+  while (questionCounter > questionMaxColumn) {
+    sendMessage(question);
+    if (messageText == "Yes"){
+      answerArray = questions[questionSelectedNumber][questionCounter + 1];
+      continue;
+    }else if (messageText == "No"){
+      continue;
+    }
+    //3回生成した後の処理
+    if (questionCounter > questionMaxColumn){
+      sendMessage("ほな、こんなお店はどうでしょう");
+      for (let i; i == 3; i += 1){
+        sendMessage("店舗"+i);
       }
+      
+
+    }
 
     }
 
   }
 
-}
+
 
