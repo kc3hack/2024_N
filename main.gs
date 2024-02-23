@@ -11,5 +11,6 @@ function main() {
   convertCode();               // コード変換
   serchRestaurant();           // 店を調べる
   columns = resultMessage();  // 結果のカラムを作る
+  console.log(columns);
                               // 送信する関数を入れる
 }
