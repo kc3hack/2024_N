@@ -17,13 +17,11 @@ function serchRestaurant() {
   Logger.log(foodWord);
   
   // 検索条件を設定
-  // APIキー、キーワード（地名）、食べ物ジャンル、表示個数（30）、クレカ使えるか、フォーマット（json）
   var params = {
     key: API_KEY,
     keyword: cityName,
     genre: foodWord,
-    count: 30,
-    card: 1,
+    count: 50,
     format: 'json'
   };
   
@@ -38,7 +36,7 @@ function serchRestaurant() {
   resultSheet.clear();
 
   // headerの書き込み
-  var headers = ['店舗名', 'ジャンル', '地名', 'URL', '画像', 'クーポン', 'キャッチ'];
+  var headers = ['店舗名', 'ジャンル', '地名', 'URL', '画像', 'クーポン', 'キャッチ'];            
   resultSheet.getRange("A1:G1").setValues([headers]); 
 
   responseData.results.shop.forEach(function(shop) {

@@ -5,25 +5,29 @@ function convertCode() {
 
   var foodRange = foodAndCitySheet.getRange('C1');
   var foodWord = foodRange.getValue();
-  var foodCode;
 
-  // wordからcodeに変換（index1ずれ）
-  foodWordArray = ["居酒屋", "ダイニングバー・バル", "創作", "和食", "洋食", "イタリアン", "中華", "焼肉", "アジア・エスニック料理", "各国", "カラオケ・パーティ", "バー・カクテル", "ラーメン", "カフェ・スイーツ", "その他", "お好み焼き・もんじゃ", "韓国"]
-
-  for (let i = 0; i < 17; i++)
-  {
-    if (foodWord == foodWordArray[i])
-    {
-      if (i > 8)
-      {
-        foodCode = "G0" + String(i + 1);
-      }
-      else
-      {
-        foodCode = "G00" + String(i + 1);
-      }
-    }
+  // 連想配列で実装
+  foodAndCodeSet = {
+    "居酒屋": "G001", 
+    "ダイニングバー・バル": "G002", 
+    "創作": "G003", 
+    "和食": "G004", 
+    "洋食": "G005", 
+    "イタリアン": "G006", 
+    "中華": "G007", 
+    "焼肉": "G008", 
+    "アジア・エスニック料理": "G009", 
+    "各国": "G010", 
+    "カラオケ・パーティ": "G011", 
+    "バー・カクテル": "G012", 
+    "ラーメン": "G013", 
+    "カフェ・スイーツ": "G014", 
+    "その他": "G015", 
+    "お好み焼き・もんじゃ": "G016", 
+    "韓国": "G017"
   }
 
+  var foodCode = foodAndCodeSet[foodWord];
+  console.log(foodCode);
   foodAndCitySheet.getRange('B1').setValue(foodCode);
 }
