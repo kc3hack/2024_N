@@ -1,11 +1,11 @@
-function quickReply(LINE_TOKEN, LINE_PUSH_ENDPOINT, LINE_USERID) {
+function quickReply(LINE_TOKEN, LINE_BROADCAST_ENDPOINT, LINE_USERID) {
   var headers = {
      "Authorization": "Bearer " + LINE_TOKEN, // 認証トークンを指定するためのヘッダー
      'Content-type': 'application/json'
    }
 
   var postData = {
-    "to": LINE_USERID, //対象ユーザーのUserId
+    // "to": LINE_USERID, //対象ユーザーのUserId
     "messages": [{
       "type": "text",
       "text": "どの県について調べますか？",
@@ -70,5 +70,5 @@ function quickReply(LINE_TOKEN, LINE_PUSH_ENDPOINT, LINE_USERID) {
     "payload": JSON.stringify(postData)
   };
 
-  UrlFetchApp.fetch(LINE_PUSH_ENDPOINT, params);
+  UrlFetchApp.fetch(LINE_BROADCAST_ENDPOINT, params);
 }
