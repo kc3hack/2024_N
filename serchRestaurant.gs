@@ -36,11 +36,11 @@ function serchRestaurant() {
   resultSheet.clear();
 
   // headerの書き込み
-  var headers = ['店舗名', 'ジャンル', '地名', 'URL'];
-  resultSheet.getRange("A1:D1").setValues([headers]); 
+  var headers = ['店舗名', 'ジャンル', '地名', 'URL', '画像', 'クーポン', 'キャッチ'];            
+  resultSheet.getRange("A1:G1").setValues([headers]); 
 
   responseData.results.shop.forEach(function(shop) {
-    var row = [shop.name, shop.genre.name, shop.station_name, shop.urls.pc];
+    var row = [shop.name, shop.genre.name, shop.station_name, shop.urls.pc, shop.photo.mobile.l, shop.coupon_urls.sp, shop.genre.catch];
     resultSheet.appendRow(row).getRange("A2");
   });
 }
