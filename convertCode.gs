@@ -3,8 +3,7 @@ function convertCode() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const foodAndCitySheet = ss.getSheetByName("foodandcity");
 
-  var foodRange = foodAndCitySheet.getRange('C1');
-  var foodWord = foodRange.getValue();
+  var foodWord = foodAndCitySheet.getRange('C1').getValue();  // セル（C1）の値を取得
 
   // 連想配列で実装
   foodAndCodeSet = {

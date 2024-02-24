@@ -10,7 +10,42 @@ function main() {
   quickReply(LINE_TOKEN, LINE_BROADCAST_ENDPOINT, LINE_USERID);
   convertCode();               // コード変換
   serchRestaurant();           // 店を調べる
-  columns = resultMessage();  // 結果のカラムを作る
+  var columns = resultMessage();  // 結果のカラムを作る
+
   console.log(columns);
-                              // 送信する関数を入れる
+
+  // doPost()関数
+  function doPost(e) {
+    //受け取ったメッセージから返信用のTokenを取得
+    var json = JSON.parse(event.postData.contents);
+    var replyToken = json.events[0].replyToken;
+
+    // 作成したカラムを元にメッセージを作成
+    var payload = JSON.stringify({
+      "replyToken": replyToken,
+      "messages": [{
+        "type": "template",
+        "altText": "this is a carousel template",
+        "template": {
+          "type": "carousel",
+          "columns": columns,
+          "imageAspectRatio": "rectangle",
+          "imageSize": "cover"
+        }
+      }]
+    });
+
+    //４．送信
+    UrlFetchApp.fetch(LINE_REPLY_ENDPOINT, {
+      "headers": {
+        "Content-Type": "application/json; charset=UTF-8",
+        "Authorization": "Bearer " + LINE_TOKEN,
+      },
+      "method": "post",
+      "payload": payload
+    });
+
+    return ContentService.createTextOutput(JSON.stringify({'content': 'post ok'})).setMimeType(ContentService.MimeType.JSON);
+  }
+
 }
