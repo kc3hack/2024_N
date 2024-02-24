@@ -16,13 +16,18 @@ function doPost(e) {
   //送られたメッセージ内容を取得
   var message = json.events[0].message.text;
 
-  /* setting */
+  /* buttonUI */
   if (message === "お店を紹介して") {
     searchPrefecture(reply_token);
   }
 
+  /* setting */
+  if (message === "大阪府" || message === "京都府" || message === "滋賀県" || message === "兵庫県" || message === "奈良県" || message === "和歌山県") {
+    writePrefecture(message);
+  }
 
   /* sendQuestions */
+  
 
   /* getMessage */
 
