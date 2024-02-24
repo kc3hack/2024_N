@@ -15,12 +15,11 @@ function getMessage(e, questionAndScoreSet) {
   var message = json.events[0].message.text;  
   if (message == "YES")
   {
-    score * -1;
     return socre;
   }
   else
   {
-    return score;
+    return score * -1;
   }
 
   // TODO: mainの方でscoreSumを定義して欲しい
