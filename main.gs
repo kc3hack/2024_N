@@ -8,7 +8,6 @@ var replyToken, message;
 
 function main() {
   searchPrefecture(LINE_TOKEN, LINE_BROADCAST_ENDPOINT, LINE_USERID);
-  setting();
   convertCode();               // コード変換
   serchRestaurant();           // 店を調べる
   var columns = resultMessage();  // 結果のカラムを作る
