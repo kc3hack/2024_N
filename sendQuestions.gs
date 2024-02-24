@@ -11,11 +11,9 @@ function sendQuestions(line) {
 
   // スプレッドシートから質問を持ってくる
   var question = questionsSheet.getRange(row, line).getValue();
-  console.log(question);
 
   // 質問に付随する点数を持ってくる
-  var score = questionsSheet.getRange(row, line + 1).getValue();
-  console.log(score);
+  var score = questionsSheet.getRange(row, line + 1).getValue();;
 
   // 質問とクエスチョンが入った辞書を作成する
   var questionAndScoreSet = {"question": question, "score": score};
