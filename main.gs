@@ -1,5 +1,5 @@
 //LINE Developersで取得したアクセストークンを入れる
-const CHANNEL_ACCESS_TOKEN = 'E/nVXmnJ2f1yKEUlkS0xjrB7S6txzRt4ULwX6RTPfQlZ6kto5l+ZJc0xxbzW2iZyEEh6JAy1iSzAEsiVtMfnDZdiwlZaEOMRuTYUVLAl1g5OVJ8Vi8SxsfIqh/8iIf3gk8Ls7tnLTnhuLscZ1076gQdB04t89/1O/w1cDnyilFU='; 
+const CHANNEL_ACCESS_TOKEN = 'E/nVXmnJ2f1yKEUlkS0xjrB7S6txzRt4ULwX6RTPfQlZ6kto5l+ZJc0xxbzW2iZyEEh6JAy1iSzAEsiVtMfnDZdiwlZaEOMRuTYUVLAl1g5OVJ8Vi8SxsfIqh/8iIf3gk8Ls7tnLTnhuLscZ1076gQdB04t89/1O/w1cDnyilFU=';
 const LINE_REPLY_ENDPOINT = "https://api.line.me/v2/bot/message/reply";
 const LINE_BROADCAST_ENDPOINT = "https://api.line.me/v2/bot/message/broadcast";
 
@@ -11,15 +11,18 @@ function doPost(e) {
   var json = JSON.parse(e.postData.contents);
 
   //返信するためのトークン取得
-  var reply_token= json.events[0].replyToken;
+  var reply_token = json.events[0].replyToken;
   if (typeof reply_token === 'undefined') {
     return;
   }
 
   //送られたメッセージ内容を取得
-  var message = json.events[0].message.text;  
+  var message = json.events[0].message.text;
 
   /* setting */
+  if (message === "お店を紹介して") {
+    quickReply(CHANNEL_ACCESS_TOKEN, LINE_BROADCAST_ENDPOINT);
+  }
 
   /* sendQuestions */
 
@@ -47,7 +50,7 @@ function test(reply_token, message) {
       }],
     }),
   });
-  return ContentService.createTextOutput(JSON.stringify({'content': 'post ok'})).setMimeType(ContentService.MimeType.JSON);
+  return ContentService.createTextOutput(JSON.stringify({ 'content': 'post ok' })).setMimeType(ContentService.MimeType.JSON);
 }
 
 
