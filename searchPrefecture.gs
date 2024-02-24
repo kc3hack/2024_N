@@ -15,48 +15,48 @@ function searchPrefecture(LINE_TOKEN, LINE_BROADCAST_ENDPOINT, LINE_USERID) {
             "type": "action",
             "action": {
               "type": "message",
-              "label": "大阪",
-              "text": "大阪"
+              "label": "大阪府",
+              "text": "大阪府"
             }
           },
           {
             "type": "action",
             "action": {
               "type": "message",
-              "label": "京都",
-              "text": "京都"
+              "label": "京都府",
+              "text": "京都府"
             }
           },
           {
             "type": "action",
             "action": {
               "type": "message",
-              "label": "滋賀",
-              "text": "滋賀"
+              "label": "滋賀県",
+              "text": "滋賀県"
             }
           },
           {
             "type": "action",
             "action": {
               "type": "message",
-              "label": "兵庫",
-              "text": "兵庫"
+              "label": "兵庫県",
+              "text": "兵庫県"
             }
           },
           {
             "type": "action",
             "action": {
               "type": "message",
-              "label": "奈良",
-              "text": "奈良"
+              "label": "奈良県",
+              "text": "奈良県"
             }
           },
           {
             "type": "action",
             "action": {
               "type": "message",
-              "label": "和歌山",
-              "text": "和歌山"
+              "label": "和歌山県",
+              "text": "和歌山県"
             }
           }
         ]
