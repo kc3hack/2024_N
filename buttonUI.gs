@@ -1,4 +1,4 @@
-function quickReply(LINE_TOKEN, LINE_BROADCAST_ENDPOINT, LINE_USERID) {
+function quickReply(LINE_TOKEN, LINE_BROADCAST_ENDPOINT) {
   var headers = {
      "Authorization": "Bearer " + LINE_TOKEN, // 認証トークンを指定するためのヘッダー
      'Content-type': 'application/json'
