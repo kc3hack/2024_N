@@ -26,10 +26,10 @@ function doPost(e) {
     writePrefecture(message);
   }
 
-  /* sendQuestions */
-  
-
-  /* getMessage */
+  /* sendQuestions, getMessage */
+  for (let i = 0; i < 3; i++) {
+    sendQuestions()
+  }
 
   /* resultMessage */
 
