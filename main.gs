@@ -7,7 +7,8 @@ const LINE_USERID = 'U8b7b305f2a9fb2429b8d44dec955bf83';
 var replyToken, message;
 
 function main() {
-  quickReply(LINE_TOKEN, LINE_BROADCAST_ENDPOINT, LINE_USERID);
+  searchPrefecture(LINE_TOKEN, LINE_BROADCAST_ENDPOINT, LINE_USERID);
+  setting();
   convertCode();               // コード変換
   serchRestaurant();           // 店を調べる
   var columns = resultMessage();  // 結果のカラムを作る

@@ -1,4 +1,4 @@
-function quickReply(LINE_TOKEN, LINE_BROADCAST_ENDPOINT, LINE_USERID) {
+function searchPrefecture(LINE_TOKEN, LINE_BROADCAST_ENDPOINT, LINE_USERID) {
   var headers = {
      "Authorization": "Bearer " + LINE_TOKEN, // 認証トークンを指定するためのヘッダー
      'Content-type': 'application/json'
