@@ -3,9 +3,6 @@ const CHANNEL_ACCESS_TOKEN = 'E/nVXmnJ2f1yKEUlkS0xjrB7S6txzRt4ULwX6RTPfQlZ6kto5l
 const LINE_REPLY_ENDPOINT = "https://api.line.me/v2/bot/message/reply";
 const LINE_BROADCAST_ENDPOINT = "https://api.line.me/v2/bot/message/broadcast";
 
-// ユーザに都道府県を選択させる
-quickReply(CHANNEL_ACCESS_TOKEN, LINE_BROADCAST_ENDPOINT);
-
 //ポストで送られてくるので、送られてきたJSONをパース
 function doPost(e) {
   var json = JSON.parse(e.postData.contents);
@@ -21,8 +18,9 @@ function doPost(e) {
 
   /* setting */
   if (message === "お店を紹介して") {
-    quickReply(CHANNEL_ACCESS_TOKEN, LINE_BROADCAST_ENDPOINT);
+    searchPrefecture(reply_token);
   }
+
 
   /* sendQuestions */
 
@@ -31,29 +29,27 @@ function doPost(e) {
   /* resultMessage */
 
   // オウム返し
-  test(reply_token, message);
+  // test(reply_token, message);
 
 }
 
-function test(reply_token, message) {
-  UrlFetchApp.fetch(LINE_REPLY_ENDPOINT, {
-    'headers': {
-      'Content-Type': 'application/json; charset=UTF-8',
-      'Authorization': 'Bearer ' + CHANNEL_ACCESS_TOKEN,
-    },
-    'method': 'post',
-    'payload': JSON.stringify({
-      'replyToken': reply_token,
-      'messages': [{
-        'type': 'text',
-        'text': message,
-      }],
-    }),
-  });
-  return ContentService.createTextOutput(JSON.stringify({ 'content': 'post ok' })).setMimeType(ContentService.MimeType.JSON);
-}
-
-
+// function test(reply_token, message) {
+//   UrlFetchApp.fetch(LINE_REPLY_ENDPOINT, {
+//     'headers': {
+//       'Content-Type': 'application/json; charset=UTF-8',
+//       'Authorization': 'Bearer ' + CHANNEL_ACCESS_TOKEN,
+//     },
+//     'method': 'post',
+//     'payload': JSON.stringify({
+//       'replyToken': reply_token,
+//       'messages': [{
+//         'type': 'text',
+//         'text': message,
+//       }],
+//     }),
+//   });
+//   return ContentService.createTextOutput(JSON.stringify({ 'content': 'post ok' })).setMimeType(ContentService.MimeType.JSON);
+// }
 
 
 
