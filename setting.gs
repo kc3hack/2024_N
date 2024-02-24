@@ -22,6 +22,9 @@ function doPost(e) {
   return ContentService.createTextOutput(JSON.stringify({'content': 'post received'})).setMimeType(ContentService.MimeType.JSON);
 }
 
+
+
+
 // 応答メッセージを送信する関数
 function sendReply(replyToken, message) {
   var url = 'https://api.line.me/v2/bot/message/reply';
