@@ -8,7 +8,7 @@ function quickReply(LINE_TOKEN, LINE_BROADCAST_ENDPOINT, LINE_USERID) {
     // "to": LINE_USERID, //対象ユーザーのUserId
     "messages": [{
       "type": "text",
-      "text": "どの県について調べますか？",
+      "text": "どの県について調べるん？",
       "quickReply": {
         "items": [
           {
