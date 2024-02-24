@@ -27,8 +27,14 @@ function doPost(e) {
   }
 
   /* sendQuestions, getMessage */
+  let j = 1;
+  let scoreSum = 0;
   for (let i = 0; i < 3; i++) {
-    sendQuestions()
+    var questionAndScoreSet = sendQuestions(j);
+    var score = getMessage(e, questionAndScoreSet);
+    console.log(questionAndScoreSet);
+    scoreSum += score;
+    j += 3; // 1, 4, 7
   }
 
   /* resultMessage */
