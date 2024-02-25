@@ -21,7 +21,7 @@ function serchRestaurant() {
     key: API_KEY,
     keyword: cityName,
     genre: foodWord,
-    count: 50,
+    count: 30,
     format: 'json'
   };
   

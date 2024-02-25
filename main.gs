@@ -2,14 +2,29 @@
 const CHANNEL_ACCESS_TOKEN = 'E/nVXmnJ2f1yKEUlkS0xjrB7S6txzRt4ULwX6RTPfQlZ6kto5l+ZJc0xxbzW2iZyEEh6JAy1iSzAEsiVtMfnDZdiwlZaEOMRuTYUVLAl1g5OVJ8Vi8SxsfIqh/8iIf3gk8Ls7tnLTnhuLscZ1076gQdB04t89/1O/w1cDnyilFU=';
 const LINE_REPLY_ENDPOINT = "https://api.line.me/v2/bot/message/reply";
 const LINE_BROADCAST_ENDPOINT = "https://api.line.me/v2/bot/message/broadcast";
+const LINE_PUSH_ENDPOINT = "https://api.line.me/v2/bot/message/push";
 
-// ポストで送られてくるので、送られてきたJSONをパース
+// 質問を持ってくる
+function createQuestion() {
+  questionAndScoreList = []
+  for (let i = 0; i < 3; i++) {
+    var questionAndScoreSet = sendQuestions(1 + i * 3);
+    questionAndScoreList.push(questionAndScoreSet);
+  }
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const foodAndCitySheet = ss.getSheetByName("answer");
+  console.log(foodAndCitySheet.getRange("D2").getValue())
+  
+  return questionAndScoreList;
+}
 
+// doPost
 function doPost(e) {
   var json = JSON.parse(e.postData.contents);
 
   //返信するためのトークン取得
   var reply_token = json.events[0].replyToken;
+
   if (typeof reply_token === 'undefined') {
     return;
   }
@@ -27,81 +42,157 @@ function doPost(e) {
     writePrefecture(message);
   }
 
-  /* sendQuestions, getMessage */
-  var scoreSum = 0;
-  var questionAndScoreSet = sendQuestions(1);
-
-  // 質問を送信する機能
-  var option = {
-    'headers': {
-      'Content-Type': 'application/json; charset=UTF-8',
-      'Authorization': 'Bearer ' + LINE_TOKEN,
-    },
-    'method': 'post',
-    'payload': JSON.stringify({
-      'replyToken': reply_token,
-      'messages': [{
-        'type': 'text',
-        'text': questionAndScoreSet.question,
-      }],
-    }),
-  }
-
-  UrlFetchApp.fetch(LINE_REPLY_ENDPOINT, option);
-
-  if (message === "NO") {
-    score *= -1;
-  }
-
-  scoreSum += score;
-
-
-  // スプレッドシートを読み込む
+  // スプレッドシートの読み込み
   const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const answerSheet = ss.getSheetByName("answer");
-  const foodAndCitySheet = ss.getSheetByName("foodandcity");
-  var lastRow = answerSheet.getLastRow();
+  const foodAndCitySheet = ss.getSheetByName("foodAndCity");
+  var count = foodAndCitySheet.getRange('A2').getValue();
+  var scoreSum = foodAndCitySheet.getRange('A3').getValue();
 
-  // E2にユーザーの値を書き込む
-  answerSheet.getRange('E2').setValue(scoreSum);
-  for (let i = 2; i <= lastRow; i++) {
-    if (answerSheet.getRange('D' + String(i)).getValue() == "TRUE") {
-      var foodGenre = answerSheet.getRange('A' + String(i)).getValue();
-      foodAndCitySheet.getRange('C1').setValue(foodGenre);
+  /* sendQuestions, getMessage */
+  // 質問と得点が入ったセット
+  questionAndScoreList = createQuestion();
+
+  // 送信
+  if (count == 0) {
+    UrlFetchApp.fetch(LINE_REPLY_ENDPOINT, {
+      'headers': {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer ' + CHANNEL_ACCESS_TOKEN,
+      },
+      'method': 'post',
+      'payload': JSON.stringify({
+        'replyToken': reply_token,
+        'messages': [{
+          'type': 'text',
+          'text': questionAndScoreList[0]['question'],
+        }],
+      }),
+    });
+
+    // Noならばマイナス、Yesならばぷらす
+    if (message === "NO") {
+      scoreSum -= questionAndScoreList[0]['score'];
+    } else {
+      scoreSum += questionAndScoreList[0]['score'];
     }
   }
 
-  // converCodeの実行
-  convertCode();
+  if (count == 1) 
+  {
+    UrlFetchApp.fetch(LINE_REPLY_ENDPOINT, {
+      'headers': {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer ' + CHANNEL_ACCESS_TOKEN,
+      },
+      'method': 'post',
+      'payload': JSON.stringify({
+        'replyToken': reply_token,
+        'messages': [{
+          'type': 'text',
+          'text': questionAndScoreList[1]['question'], 
+        }],
+      }),
+    });
 
-  // serchRestaurant
-  serchRestaurant();
+    // Noならばマイナス、Yesならばぷらす
+    if (message === "NO") {
+      scoreSum -= questionAndScoreList[1]['score'];
+    } else {
+      scoreSum += questionAndScoreList[1]['score'];
+    }
+  } 
 
-  /* resultMessage */
-  columns = resultMessage();
+  if (count == 2) 
+  {
+    UrlFetchApp.fetch(LINE_REPLY_ENDPOINT, {
+      'headers': {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer ' + CHANNEL_ACCESS_TOKEN,
+      },
+      'method': 'post',
+      'payload': JSON.stringify({
+        'replyToken': reply_token,
+        'messages': [{
+          'type': 'text',
+          'text': questionAndScoreList[2]['question'],
+        }],
+      }),
+    });
 
-  // 
-  var payload = JSON.stringify({
-    "replyToken": reply_Token,
-    "messages": [{
-      "type": "template",
-      "altText": "this is a carousel template",
-      "template": {
-        "type": "carousel",
-        "columns": columns,
-        "imageAspectRatio": "rectangle",
-        "imageSize": "cover"
+    // Noならばマイナス、Yesならばぷらす
+    if (message === "NO") {
+      scoreSum -= questionAndScoreList[2]['score'];
+    } else {
+      scoreSum += questionAndScoreList[2]['score'];
+    }
+  } 
+
+  if (count == 3) {
+    /* resultMessage */
+    // スプレッドシートを読み込む
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    const answerSheet = ss.getSheetByName("answer");
+    const foodAndCitySheet = ss.getSheetByName("foodandcity");
+    var lastRow = answerSheet.getLastRow();
+
+    // E2にユーザーの値を書き込む
+    answerSheet.getRange('E2').setValue(scoreSum);
+    for (let i = 2; i <= lastRow; i++) {
+      if (answerSheet.getRange('D' + String(i)).getValue()) {
+        var foodGenre = answerSheet.getRange('A' + String(i)).getValue();
+        foodAndCitySheet.getRange('C1').setValue(foodGenre);
       }
-    }]
-  });
+    }
 
-  //　送信
-  UrlFetchApp.fetch(LINE_REPLY_ENDPOINT, {
-    "headers": {
-      "Content-Type": "application/json; charset=UTF-8",
-      "Authorization": "Bearer " + CHANNEL_ACCESS_TOKEN,
-    },
-    "method": "post",
-    "payload": payload
-  });
+    // convertCode
+    convertCode();
+
+    // serchRestaurant
+    serchRestaurant();
+
+    /* resultMessage */
+    columns = resultMessage();
+
+    // 結果を送信する
+    var payload = JSON.stringify({
+      "replyToken": reply_Token,
+      "messages": [{
+        "type": "template",
+        "altText": "this is a carousel template",
+        "template": {
+          "type": "carousel",
+          "columns": columns,
+          "imageAspectRatio": "rectangle",
+          "imageSize": "cover"
+        }
+      }]
+    });
+
+
+    //　送信
+    UrlFetchApp.fetch(LINE_REPLY_ENDPOINT, {
+      'headers': {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer ' + CHANNEL_ACCESS_TOKEN,
+      },
+      'method': 'post',
+      'payload': JSON.stringify({
+        'replyToken': reply_token,
+        'messages': [{
+          'type': 'text',
+          'text': "aaaaaaaaaa", 
+        }],
+      }),
+    });
+  }
+
+  if (count == 4)
+  {
+    foodAndCitySheet.getRange('A2').setValue(0);
+    foodAndCitySheet.getRange('A3').setValue(0);
+  }
+
+  count++;
+  foodAndCitySheet.getRange('A2').setValue(count);
+  foodAndCitySheet.getRange('A3').setValue(scoreSum);
 }
