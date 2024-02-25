@@ -4,6 +4,8 @@ const LINE_REPLY_ENDPOINT = "https://api.line.me/v2/bot/message/reply";
 const LINE_BROADCAST_ENDPOINT = "https://api.line.me/v2/bot/message/broadcast";
 const LINE_PUSH_ENDPOINT = "https://api.line.me/v2/bot/message/push";
 
+var list = []
+
 // 質問を持ってくる
 function createQuestion() {
   questionAndScoreList = []
@@ -125,11 +127,7 @@ function doPost(e) {
     } else {
       scoreSum += questionAndScoreList[2]['score'];
     }
-  } 
 
-  if (count == 3) {
-    /* resultMessage */
-    // スプレッドシートを読み込む
     const ss = SpreadsheetApp.getActiveSpreadsheet();
     const answerSheet = ss.getSheetByName("answer");
     const foodAndCitySheet = ss.getSheetByName("foodandcity");
@@ -143,7 +141,10 @@ function doPost(e) {
         foodAndCitySheet.getRange('C1').setValue(foodGenre);
       }
     }
+  } 
 
+  if (count == 3) 
+  {
     // convertCode
     convertCode();
 
@@ -152,44 +153,40 @@ function doPost(e) {
 
     /* resultMessage */
     columns = resultMessage();
-
-    // 結果を送信する
-    var payload = JSON.stringify({
-      "replyToken": reply_Token,
-      "messages": [{
-        "type": "template",
-        "altText": "this is a carousel template",
-        "template": {
-          "type": "carousel",
-          "columns": columns,
-          "imageAspectRatio": "rectangle",
-          "imageSize": "cover"
-        }
-      }]
-    });
-
-
-    //　送信
-    UrlFetchApp.fetch(LINE_REPLY_ENDPOINT, {
-      'headers': {
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'Bearer ' + CHANNEL_ACCESS_TOKEN,
-      },
-      'method': 'post',
-      'payload': JSON.stringify({
-        'replyToken': reply_token,
-        'messages': [{
-          'type': 'text',
-          'text': "aaaaaaaaaa", 
-        }],
-      }),
-    });
+    list.push(colums);
+    count++;
   }
 
   if (count == 4)
   {
+    // 結果を送信する
+    //　送信
+    var payload = JSON.stringify({
+      "replyToken": replyToken,
+      "messages": [{
+        "type": "template",
+        "altText": "this is a carousel template",
+        "template": {
+            "type": "carousel",
+            "columns": list[0],
+            "imageAspectRatio": "rectangle",
+            "imageSize": "cover"
+        }
+      }]
+    });
+
+     UrlFetchApp.fetch(LINE_PUSH_ENDPOINT, {
+      "headers": {
+        "Content-Type": "application/json; charset=UTF-8",
+        "Authorization": "Bearer " + CHANNEL_ACCESS_TOKEN,
+      },
+      "method": "post",
+      "payload": payload
+    });
+
     foodAndCitySheet.getRange('A2').setValue(0);
     foodAndCitySheet.getRange('A3').setValue(0);
+    return;
   }
 
   count++;
