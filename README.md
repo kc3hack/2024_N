@@ -6,7 +6,7 @@
 
 
 ## チーム名
-チームN　Noodle knights
+チームN　「Noodle knights」
 <!-- チームIDとチーム名を入力してください -->
 
 
